@@ -83,7 +83,10 @@ function guessLetter(elm) {
         // TODO: Determine if the game is over, and if so,
         // let the player know if they have won or lost
         
-        if (wordDiv.innerHTML.indexOf("_") == -1) {
+        if (wrongGuesses >= 6) {
+            wordDiv.innerHTML = wordDiv.innerHTML + 'Sorry you loose! Refresh the webpage to play again.  ';
+        }
+        else if (wordDiv.innerHTML.indexOf("_") == -1) {
             wordDiv.innerHTML = wordDiv.innerHTML + 'Congratulations you won! Refresh the webpage to play again.  ';
         }
     }
