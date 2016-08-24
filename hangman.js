@@ -45,69 +45,48 @@ function resetLetters() {
  * @param {elm} the element clicked
  */
 function guessLetter(elm) {
-  var letter = elm.id;
+    var letter = elm.id;
 
-  // Remove the letter from possible guesses element
-  var node = document.getElementById(letter);
-  node.parentElement.removeChild(node);
+    if (wrongGuesses >= 6) {
+        wordDiv.innerHTML = wordDiv.innerHTML + 'Sorry you loose! Refresh the webpage to play again.  ';
+    }
+    else if (wordDiv.innerHTML.indexOf("_") == -1) {
+        wordDiv.innerHTML = wordDiv.innerHTML + 'Congratulations you won! Refresh the webpage to play again.  ';
 
-  // Add the letter to the guesses div
-  node = document.createElement('span');
-  node.innerHTML = letter;
-  guessesDiv.appendChild(node);
+    }
+    else {
+        // Remove the letter from possible guesses element
+        var node = document.getElementById(letter);
+        node.parentElement.removeChild(node);
 
-  // TODO: Determine if the letter is in the secret word,
-  // if so, reveal it in the secretWordDiv, otherwise
-  // add a part to our hangman
-  if (secretWord.indexOf(letter.toLowerCase()) != -1) {
-      //update blanks
-      var oldBlanks = blanks;
-      for (i = 0; i < secretWord.length; i++) {
-          if (secretWord.charAt(i) == letter.toLowerCase()) {
-              blanks += letter.toLowerCase();
-          }
-          else {
-              blanks += oldBlanks.charAt(i);
-          }
-      }
-      drawBlanks();
-  }
-  else {
-      wrongGuesses += 1;
-      drawStickMan(wrongGuesses);
-  }
-  /*
-  var has_letter = false;
-  var winner = false;
+        // Add the letter to the guesses div
+        node = document.createElement('span');
+        node.innerHTML = letter;
+        guessesDiv.appendChild(node);
 
-  for (i = 0; i < secretWord.length; i++) {
-      if (secretWord[i] == letter.toLowerCase()) {
-          has_letter = true;
-          wordDiv.childNodes[i].textContent = letter;
-      }
-  }
-  if (!has_letter) {
-      drawStickMan(wrongGuesses = wrongGuesses + 1);
-  }
-  */
+        // TODO: Determine if the letter is in the secret word,
+        // if so, reveal it in the secretWordDiv, otherwise
+        // add a part to our hangman
 
-  // TODO: Determine if the game is over, and if so,
-  // let the player know if they have won or lost
-  if (wrongGuesses == 6) {
-      document.write("Sorry you loose!");
-  }
-  for (i = 0; i < secretWord.length; i++) {
-      if (wordDiv.childNodes[i].textContent == secretWord[i].toUpperCase()) {
-          winner = true;
-      }
-      else {
-          winner = false;
-          break;
-      }
-  }
-  if (winner) {
-      document.write("Congratulations you won!");
-  }
+        if (secretWord.indexOf(letter.toLowerCase()) != -1) {
+            for (i = 0; i < secretWord.length; i++) {
+                if (secretWord.charAt(i) == letter.toLowerCase()) {
+                    wordDiv.childNodes[i].textContent = letter;
+                }
+            }
+        }
+        else {
+            wrongGuesses += 1;
+            drawStickMan(wrongGuesses);
+        }
+
+        // TODO: Determine if the game is over, and if so,
+        // let the player know if they have won or lost
+        
+        if (wordDiv.innerHTML.indexOf("_") == -1) {
+            wordDiv.innerHTML = wordDiv.innerHTML + 'Congratulations you won! Refresh the webpage to play again.  ';
+        }
+    }
 }
 
 /**
